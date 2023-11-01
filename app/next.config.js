@@ -2,6 +2,7 @@ const path = require('path')
 
 /** @type {import('next').NextConfig} */
 module.exports = {
+  distDir: '.next',
   reactStrictMode: false,
   webpack5: true,
   webpack: (config) => {

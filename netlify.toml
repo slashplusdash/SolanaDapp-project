@@ -1,11 +1,10 @@
 # example netlify.toml
 [build]
+  base = "app"
   command = "yarn run build"
   functions = "netlify/functions"
   publish = "app"
 
-[build.environment]
-  YARN = "true"
 
 # Uncomment the redirects section if you need it.
 #[[redirects]]

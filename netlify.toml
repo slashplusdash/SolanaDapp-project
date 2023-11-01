@@ -3,7 +3,7 @@
   base = "app"
   command = "yarn run build"
   functions = "netlify/functions"
-  publish = "app"
+  publish = "app/.next"
 
 
 # Uncomment the redirects section if you need it.

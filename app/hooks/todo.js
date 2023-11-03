@@ -21,6 +21,7 @@ export function useTodo() {
     const [todos, setTodos] = useState([])
     const [loading, setLoading] = useState(false)
     const [transactionPending, setTransactionPending] = useState(false)
+    const [input, setInput] = useState('');
 
     // const program = useMemo(() => {
     //     if (anchorWallet) {
@@ -28,6 +29,8 @@ export function useTodo() {
     //         return new anchor.Program(profileIdl, TODO_PROGRAM_PUBKEY, provider)
     //     }
     // }, [connection, anchorWallet])
+
+    
 
     const program = useMemo(() => {
         if (anchorWallet) {
@@ -119,6 +122,7 @@ export function useTodo() {
                 toast.error(error.toString())
             } finally {
                 setTransactionPending(false)
+                setInput("")
             }
         }
     }
@@ -128,8 +132,7 @@ export function useTodo() {
             try {
                 setTransactionPending(true)
                 setLoading(true)
-                const [profilePda, profileBump] = findProgramAddressSync([utf8.encode('USER_STATE'), publicKey.toBuffer()], program.programId)
-
+                const [profilePda] = findProgramAddressSync([utf8.encode('USER_STATE'), publicKey.toBuffer()], program.programId)
                 await program.methods
                     .markTodo(todoIdx)
                     .accounts({
@@ -139,7 +142,7 @@ export function useTodo() {
                         systemProgram: SystemProgram.programId,
                     })
                     .rpc()
-                toast.success('Successfully marked todo.')
+                toast.success('Successfully marked todo!')
             } catch (error) {
                 console.log(error)
                 toast.success(error.toString())
@@ -155,7 +158,7 @@ export function useTodo() {
             try {
                 setTransactionPending(true)
                 setLoading(true)
-                const [profilePda, profileBump] = findProgramAddressSync([utf8.encode('USER_STATE'), publicKey.toBuffer()], program.programId)
+                const [profilePda] = findProgramAddressSync([utf8.encode('USER_STATE'), publicKey.toBuffer()], program.programId)
 
                 await program.methods
                     .removeTodo(todoIdx)
@@ -166,7 +169,7 @@ export function useTodo() {
                         systemProgram: SystemProgram.programId,
                     })
                     .rpc()
-                toast.success('Successfully removed todo.')
+                toast.success('Successfully removed todo!')
             } catch (error) {
                 console.log(error)
                 toast.error(error.toString())
@@ -180,6 +183,6 @@ export function useTodo() {
     const incompleteTodos = useMemo(() => todos.filter((todo) => !todo.account.marked), [todos])
     const completedTodos = useMemo(() => todos.filter((todo) => todo.account.marked), [todos])
 
-    return { initialized, initializeUser, loading, transactionPending, completedTodos, incompleteTodos, addTodo, markTodo, removeTodo }
+    return { initialized, initializeUser, loading, transactionPending, completedTodos, incompleteTodos, addTodo, markTodo, removeTodo, input, setInput }
 }
 

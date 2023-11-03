@@ -1,7 +1,12 @@
 import Head from 'next/head'
 import '../styles/global.css'
-// Import WalletConnectionProvider from components
-// Import the solana wallet css
+import dynamic from 'next/dynamic';
+import '@solana/wallet-adapter-react-ui/styles.css'
+
+const WalletConnectProviderDynamic = dynamic(
+    () => import('../components/WalletConnectProvider').then((mod) => mod.WalletConnectProvider),
+    { ssr: false }
+  );
 
 function MyApp({ Component, pageProps }) {
     return (
@@ -10,8 +15,9 @@ function MyApp({ Component, pageProps }) {
                 <title>Todo App</title>
             </Head>
             <main>
-                {/* Wrap provider around App */}
+                <WalletConnectProviderDynamic>
                     <Component {...pageProps} />
+                </WalletConnectProviderDynamic>
             </main>
         </>
     )

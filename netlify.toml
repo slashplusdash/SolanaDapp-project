@@ -19,3 +19,5 @@
 #  publish = "dist" # Folder with the static content for _redirect file
 
   ## more info on configuring this file: https://docs.netlify.com/configure-builds/file-based-configuration/
+
+## I got it working, if you install @netlify/plugin-nextjs make sure you delete the .netlify folders, and run netlify dev again for error module
